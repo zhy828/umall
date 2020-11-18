@@ -396,3 +396,94 @@ export const reqGoodsCount=()=>{
     })
 }
 // =========================================  商品管理接口 结束============================================
+
+// =========================================  会员管理接口  ============================================
+
+//列表
+export const reqVipsList=()=>{
+    return axios({
+        url:baseUrl+"/api/memberlist",
+        method:"get"
+    })
+}
+
+// //编辑
+export const reqVipDetail=(uid)=>{
+    return axios({
+        url:baseUrl+"/api/memberinfo",
+        method:"get",
+        params:{
+            uid:uid
+        }
+    })
+}
+
+// //修改
+export const reqVipUpdate=(vip)=>{
+    return axios({
+        url:baseUrl+"/api/memberedit",
+        method:"post",
+        data:qs.stringify(vip)
+    })
+}
+
+// =========================================  会员管理接口 结束============================================
+
+// =========================================  轮播图管理接口  ============================================
+//添加
+export const reqBannerAdd=(Banner)=>{
+    let d=new FormData()
+    for(let i in Banner){
+        d.append(i,Banner[i])
+    }
+    return axios({
+        url:baseUrl+"/api/banneradd",
+        method:"post",
+        data:d
+    })
+}
+
+//列表
+export const reqBannerList=()=>{
+    return axios({
+        url:baseUrl+"/api/bannerlist",
+        method:"get"
+    })
+}
+
+// //删除
+export const reqBannerDel=(id)=>{
+    return axios({
+        url:baseUrl+"/api/bannerdelete",
+        method:"post",
+        data:qs.stringify({
+            id:id
+        })
+    })
+}
+
+// //编辑
+export const reqBannerDetail=(id)=>{
+    return axios({
+        url:baseUrl+"/api/bannerinfo",
+        method:"get",
+        params:{
+            id:id
+        }
+    })
+}
+
+// //修改
+export const reqBannerUpdate=(Banner)=>{
+    let d=new FormData()
+    for(let i in Banner){
+        d.append(i,Banner[i])
+    }
+    return axios({
+        url:baseUrl+"/api/banneredit",
+        method:"post",
+        data:d
+    })
+}
+
+// =========================================  轮播图管理接口 结束============================================

@@ -75,7 +75,6 @@
           <div v-if="info.isshow" id="edit"></div>
         </el-form-item>
       </el-form>
-      {{goods}}
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancel">取 消</el-button>
         <el-button type="primary" @click="add" v-if="info.title=='添加商品'">添 加</el-button>
@@ -220,7 +219,6 @@ export default {
         let d = { ...this.goods };
         d.specsattr = JSON.stringify(d.specsattr);
         reqGoodsAdd(d).then(res => {
-        console.log(12444444);
           if (res.data.code == 200) {
             successAlert("添加成功");
             this.cancel();
