@@ -32,10 +32,10 @@
           <el-button type="info" size="small" v-else>禁用</el-button>
         </template>
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" width="170px">
         <template slot-scope="scope">
-          <el-button type="primary" size="small" @click="edit(scope.row.id)">编辑</el-button>
-          <del-btn @confirm="del(scope.row.id)" class="delBtn" size="small"></del-btn>
+          <el-button type="primary" @click="edit(scope.row.id)">编辑</el-button>
+          <del-btn @confirm="del(scope.row.id)" class="delBtn"></del-btn>
         </template>
       </el-table-column>
     </el-table>
@@ -92,5 +92,8 @@ export default {
   img{
     width: 80px;
     height: 80px;
+  }
+  .delBtn{
+    display: inline-block;
   }
 </style>

@@ -333,10 +333,14 @@ export const reqSpecsCount=()=>{
 // =========================================  商品管理接口  ============================================
 //添加
 export const reqGoodsAdd=(goods)=>{
+    let d=new FormData()
+    for(let i in goods){
+        d.append(i,goods[i])
+    }
     return axios({
         url:baseUrl+"/api/goodsadd",
         method:"post",
-        data:qs.stringify(goods)
+        data:d
     })
 }
 
@@ -372,11 +376,15 @@ export const reqGoodsDetail=(id)=>{
 }
 
 // //修改
-export const reqGoodsUpdate=(form)=>{
+export const reqGoodsUpdate=(goods)=>{
+    let d=new FormData()
+    for(let i in goods){
+        d.append(i,goods[i])
+    }
     return axios({
         url:baseUrl+"/api/goodsedit",
         method:"post",
-        data:qs.stringify(form)
+        data:d
     })
 }
 
