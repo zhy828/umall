@@ -29,6 +29,9 @@ export default {
                 isshow:true,
                 title:"添加轮播图"
             }
+        },
+        edit(id){
+            
         }
     },
     mounted(){},
