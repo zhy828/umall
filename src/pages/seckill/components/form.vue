@@ -1,11 +1,11 @@
 <template>
   <div>
     <el-dialog :title="info.title" :visible.sync="info.isshow"  @closed="closed">
-      <el-form :model="seckill">
-        <el-form-item label="活动名称" label-width="120px">
+      <el-form :model="seckill" :rules="rules">
+        <el-form-item label="活动名称" label-width="120px" prop="title">
           <el-input v-model="seckill.title" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="活动期限" label-width="120px">
+        <el-form-item label="活动期限" label-width="120px" prop="value2">
           <div class="block">
             <el-date-picker
               v-model="value2"
@@ -14,11 +14,10 @@
               start-placeholder="开始日期"
               end-placeholder="结束日期"
               align="right"
-              :change="time()"
             ></el-date-picker>
           </div>
         </el-form-item>
-        <el-form-item label="一级分类" label-width="120px">
+        <el-form-item label="一级分类" label-width="120px" prop="first_cateid">
           <el-select v-model="seckill.first_cateid" placeholder="请选择一级分类" @change="changeFirst">
             <el-option
               v-for="item in cateList"
@@ -28,7 +27,7 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="二级分类" label-width="120px">
+        <el-form-item label="二级分类" label-width="120px" prop="second_cateid">
           <el-select v-model="seckill.second_cateid" placeholder="请选择二级分类" @change="changeSecond">
             <el-option
               v-for="item in secondCateList"
@@ -38,7 +37,7 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="商品" label-width="120px">
+        <el-form-item label="商品" label-width="120px" prop="goodsid">
           <el-select v-model="seckill.goodsid" placeholder="请选择商品">
             <el-option
               v-for="item in goodsArr"
@@ -72,10 +71,17 @@ import {
   reqSeckillUpdate,
 } from "../../../utils/http";
 import { successAlert } from "../../../utils/alert";
+import seckill from '../../../store/modules/seckill';
 export default {
   props: ["info"],
   data() {
     return {
+      rules:{
+        title: [{ required: true, message: "请输入活动名称", trigger: "blur" }],
+        first_cateid: [{ required: true, message: "请输入一级分类", trigger: "change" }],
+        second_cateid: [{ required: true, message: "请输入二级分类", trigger: "change" }],
+        goodsid: [{ required: true, message: "请输入商品", trigger: "change" }],
+            },
       seckill: {
         title: "",
         begintime: "",
@@ -137,7 +143,8 @@ export default {
       });
     },
     add() {
-      this.time();
+      this.seckill.begintime = this.value2[0].getTime();
+      this.seckill.endtime = this.value2[1].getTime()
       reqSeckillAdd(this.seckill).then((res) => {
         if (res.data.code == 200) {
           successAlert("添加成功");
@@ -146,13 +153,13 @@ export default {
           this.reqList();
         }
       });
+      console.log(this.seckill);
     },
     getOne(id) {
       this.value2 = [];
       reqSeckillDetail(id).then((res) => {
         this.seckill = res.data.list;
         this.seckill.id = id;
-        this.value2.push(this.seckill.begintime, this.seckill.endtime);
         reqCateList({ pid: this.seckill.first_cateid }).then((res) => [
           (this.secondCateList = res.data.list),
         ]);
@@ -163,11 +170,11 @@ export default {
           this.goodsArr = res.data.list;
         });
       });
+      console.log(this.$moment(new Date()).format())
     },
     update() {
-      // this.seckill.begintime=this.value2[0]
-      // this.seckill.endtime=this.value2[1]
-      this.time();
+      this.seckill.begintime = this.value2[0].getTime();
+      this.seckill.endtime = this.value2[1].getTime()
       reqSeckillUpdate(this.seckill).then((res) => {
         if (res.data.code == 200) {
           successAlert("更新成功");
@@ -177,25 +184,35 @@ export default {
         }
       });
     },
-    //获取开始时间结束时间
-    time() {
-      //开始时间赋值
-      this.seckill.begintime = this.value2[0];
-      //结束时间赋值
-      this.seckill.endtime = this.value2[1];
-      // console.log(this.value2[0])
-      // console.log(this.value2[1])
-    },
     closed(){
       if(this.info.title==="编辑秒杀"){
         this.empty()
       }
-    }
+    },
+    check(){
+            return new Promise((resolve,reject)=>{
+                if(this.seckill.title==""){
+                    errorAlert("活动名称不能为空")
+                    return
+                }
+                if(this.seckill.first_cateid==""){
+                    errorAlert("一级分类不能为空")
+                    return
+                }
+                if(this.seckill.second_cateid==""){
+                    errorAlert("二级分类不能为空")
+                    return
+                }
+                if(this.seckill.goodsid==""){
+                    errorAlert("商品不能为空")
+                    return
+                }
+                resolve()
+            })
+        },
   },
   mounted() {
     this.reqCateList();
-    // this.reqGoodsList();
-    // this.reqList()
   },
 };
 </script>
