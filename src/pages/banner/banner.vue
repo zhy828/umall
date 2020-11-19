@@ -1,8 +1,8 @@
 <template>
     <div>
         <el-button type="primary" @click="willAdd">添加</el-button>
-        <v-list></v-list>
-        <v-form></v-form>
+        <v-list @edit="edit"></v-list>
+        <v-form :info="info" ref="form"></v-form>
     </div>
 </template>
 
@@ -31,7 +31,11 @@ export default {
             }
         },
         edit(id){
-            
+            this.info={
+                isshow:true,
+                title:"编辑轮播图"
+            }
+            this.$refs.form.getOne(id)
         }
     },
     mounted(){},

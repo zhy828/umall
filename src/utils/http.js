@@ -487,3 +487,54 @@ export const reqBannerUpdate=(Banner)=>{
 }
 
 // =========================================  轮播图管理接口 结束============================================
+
+// =========================================  秒杀接口  ============================================
+//添加
+export const reqSeckillAdd=(Seckill)=>{
+    return axios({
+        url:baseUrl+"/api/seckadd",
+        method:"post",
+        data:qs.stringify(Seckill)
+    })
+}
+
+//列表
+export const reqSeckillList=()=>{
+    return axios({
+        url:baseUrl+"/api/secklist",
+        method:"get"
+    })
+}
+
+// //删除
+export const reqSeckillDel=(id)=>{
+    return axios({
+        url:baseUrl+"/api/seckdelete",
+        method:"post",
+        data:qs.stringify({
+            id:id
+        })
+    })
+}
+
+// //编辑
+export const reqSeckillDetail=(id)=>{
+    return axios({
+        url:baseUrl+"/api/seckinfo",
+        method:"get",
+        params:{
+            id:id
+        }
+    })
+}
+
+// //修改
+export const reqSeckillUpdate=(Seckill)=>{
+    return axios({
+        url:baseUrl+"/api/seckedit",
+        method:"post",
+        data:qs.stringify(Seckill)
+    })
+}
+
+// =========================================  秒杀接口 结束============================================

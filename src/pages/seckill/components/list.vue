@@ -7,13 +7,7 @@
       border
       :tree-props="{children: 'children'}"
     >
-      <el-table-column prop="id" label="编号" sortable></el-table-column>
-      <el-table-column prop="title" label="轮播图标题" sortable></el-table-column>
-      <el-table-column label="图片">
-        <template slot-scope="scope">
-          <img :src="$imgPre+scope.row.img" alt="/" />
-        </template>
-      </el-table-column>
+      <el-table-column prop="title" label="活动名称" width="200px" sortable></el-table-column>
       <el-table-column label="状态">
         <template slot-scope="scope">
           <el-button type="primary" v-if="scope.row.status===1" size="small">启用</el-button>
@@ -32,28 +26,28 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import { successAlert } from "../../../utils/alert";
-import { reqBannerDel } from "../../../utils/http";
+import {reqSeckillDel} from '../../../utils/http'
+import {successAlert} from '../../../utils/alert'
 export default {
   computed: {
     ...mapGetters({
-      list: "banner/list",
+      list: "seckill/list",
     }),
   },
   methods: {
     ...mapActions({
-      reqList: "banner/reqList",
+      reqList: "seckill/reqList",
     }),
-    edit(id) {
-      this.$emit("edit", id);
-    },
     del(id) {
-      reqBannerDel(id).then((res) => {
+      reqSeckillDel(id).then((res) => {
         if (res.data.code == 200) {
           successAlert("删除成功");
           this.reqList();
         }
       });
+    },
+    edit(id) {
+      this.$emit("edit", id);
     },
   },
   mounted() {
@@ -63,11 +57,9 @@ export default {
 </script>
 
 <style scoped>
-img {
-  width: 100px;
-  height: 100px;
-}
 .delBtn {
   display: inline-block;
 }
+</style>>
+
 </style>

@@ -2,13 +2,13 @@
   <div>
     <el-dialog :title="info.title" :visible.sync="info.isshow">
       <el-form :model="vip" :rules="rules">
-        <el-form-item label="昵称" label-width="120px">
+        <el-form-item label="昵称" label-width="120px" prop="nickname">
           <el-input v-model="vip.nickname" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="手机号" label-width="120px">
+        <el-form-item label="手机号" label-width="120px" prop="phone">
           <el-input v-model="vip.phone" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="密码" label-width="120px">
+        <el-form-item label="密码" label-width="120px" prop="password">
           <el-input v-model="vip.password" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="状态" label-width="120px">
